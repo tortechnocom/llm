@@ -1,0 +1,19 @@
+{
+    "extends": "../../packages/typescript-config/base.json",
+    "compilerOptions": {
+        "outDir": "./dist",
+        "rootDir": "./",
+        "resolveJsonModule": true
+    },
+    "include": [
+        "scripts",
+        "test",
+        "hardhat.config.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "artifacts",
+        "cache",
+        "typechain-types"
+    ]
+}

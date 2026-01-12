@@ -1,0 +1,9 @@
+import { Module } from '@nestjs/common';
+import { AgentsService } from './agents.service';
+import { AgentsResolver } from './agents.resolver';
+
+@Module({
+    providers: [AgentsService, AgentsResolver],
+    exports: [AgentsService],
+})
+export class AgentsModule { }

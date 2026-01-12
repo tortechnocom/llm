@@ -1,0 +1,35 @@
+{
+    "name": "@llm-platform/contracts",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "compile": "hardhat compile",
+        "test": "hardhat test",
+        "deploy:local": "hardhat run scripts/deploy.ts --network localhost",
+        "deploy:testnet": "hardhat run scripts/deploy.ts --network baseSepolia",
+        "deploy:mainnet": "hardhat run scripts/deploy.ts --network base",
+        "verify": "hardhat verify",
+        "clean": "hardhat clean"
+    },
+    "devDependencies": {
+        "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+        "@nomicfoundation/hardhat-verify": "^2.0.3",
+        "@openzeppelin/hardhat-upgrades": "^3.0.5",
+        "@typechain/ethers-v6": "^0.5.1",
+        "@typechain/hardhat": "^9.1.0",
+        "@types/chai": "^4.3.11",
+        "@types/mocha": "^10.0.6",
+        "chai": "^4.4.1",
+        "hardhat": "^2.19.5",
+        "hardhat-gas-reporter": "^1.0.9",
+        "solidity-coverage": "^0.8.5",
+        "ts-node": "^10.9.2",
+        "typechain": "^8.3.2",
+        "typescript": "^5.3.3"
+    },
+    "dependencies": {
+        "@openzeppelin/contracts": "^5.0.1",
+        "@openzeppelin/contracts-upgradeable": "^5.0.1",
+        "dotenv": "^16.4.1"
+    }
+}

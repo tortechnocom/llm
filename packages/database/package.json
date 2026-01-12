@@ -1,0 +1,20 @@
+{
+    "name": "@llm-platform/database",
+    "version": "0.1.0",
+    "private": true,
+    "main": "./index.ts",
+    "scripts": {
+        "generate": "prisma generate",
+        "migrate": "prisma migrate dev",
+        "studio": "prisma studio",
+        "seed": "ts-node prisma/seed.ts"
+    },
+    "dependencies": {
+        "@prisma/client": "^5.8.1"
+    },
+    "devDependencies": {
+        "prisma": "^5.8.1",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.3.3"
+    }
+}

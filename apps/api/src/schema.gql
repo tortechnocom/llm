@@ -1,0 +1,192 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Agent {
+  _count: AgentCounts
+  createdAt: DateTime!
+  description: String
+  domain: String
+  id: ID!
+  isPublic: Boolean!
+  name: String!
+  systemPrompt: String
+  tokenPriceMultiplier: Float!
+  trainer: User
+  trainerId: String!
+  updatedAt: DateTime!
+}
+
+type AgentCounts {
+  knowledgeBase: Int!
+  tokenTransactions: Int!
+}
+
+type AuthResponse {
+  token: String!
+  user: User!
+}
+
+type ChatMessage {
+  content: String!
+  createdAt: DateTime!
+  id: ID!
+  metadata: JSONObject
+  role: String!
+  sessionId: String!
+}
+
+type ChatSession {
+  agentId: String!
+  createdAt: DateTime!
+  id: ID!
+  messages: [ChatMessage!]
+  title: String
+  updatedAt: DateTime!
+  userId: String!
+}
+
+input CreateAgentInput {
+  description: String
+  domain: String
+  isPublic: Boolean! = false
+  name: String!
+  systemPrompt: String
+  tokenPriceMultiplier: Float! = 1
+}
+
+input CreateKnowledgeInput {
+  agentId: String!
+  content: String!
+  metadata: JSONObject
+  tags: [String!]
+  title: String
+}
+
+input CreateSessionInput {
+  agentId: String!
+  title: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+"""
+The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSONObject
+
+type KnowledgeBase {
+  agentId: String!
+  content: String!
+  createdAt: DateTime!
+  id: ID!
+  metadata: JSONObject
+  tags: [String!]!
+  title: String
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  createAgent(input: CreateAgentInput!): Agent!
+  createChatSession(input: CreateSessionInput!): ChatSession!
+  createKnowledge(input: CreateKnowledgeInput!): KnowledgeBase!
+  deleteAgent(id: String!): Boolean!
+  deleteChatSession(id: String!): Boolean!
+  deleteKnowledge(id: String!): Boolean!
+  login(input: LoginInput!): AuthResponse!
+  register(input: RegisterInput!): AuthResponse!
+  updateAgent(id: String!, input: UpdateAgentInput!): Agent!
+  updateKnowledge(input: UpdateKnowledgeInput!): KnowledgeBase!
+  walletLogin(input: WalletLoginInput!): AuthResponse!
+}
+
+type Query {
+  agent(id: String!): Agent!
+  agentTransactions(agentId: String!): [TokenTransaction!]!
+  agents(isPublic: Boolean): [Agent!]!
+  chatSession(id: String!): ChatSession!
+  getNonce(walletAddress: String!): String!
+  knowledgeByAgent(agentId: String!): [KnowledgeBase!]!
+  me: User!
+  myAgents: [Agent!]!
+  myChatSessions: [ChatSession!]!
+  myStats: UserStats!
+  myTransactions: [TokenTransaction!]!
+  searchAgents(domain: String!): [Agent!]!
+  searchKnowledge(agentId: String!, limit: Int! = 5, query: String!): [KnowledgeBase!]!
+  user(id: String!): User
+}
+
+input RegisterInput {
+  email: String!
+  firstName: String
+  lastName: String
+  password: String!
+}
+
+type TokenTransaction {
+  agent: Agent
+  agentId: String
+  amountDeducted: Float!
+  createdAt: DateTime!
+  id: ID!
+  tokensUsed: Int!
+  transactionType: TransactionType!
+  txHash: String
+  user: User
+  userId: String!
+}
+
+enum TransactionType {
+  REWARD
+  TOPUP
+  USAGE
+  WITHDRAWAL
+}
+
+input UpdateAgentInput {
+  description: String
+  domain: String
+  isPublic: Boolean
+  name: String
+  systemPrompt: String
+  tokenPriceMultiplier: Float
+}
+
+input UpdateKnowledgeInput {
+  content: String
+  id: String!
+  metadata: JSONObject
+  tags: [String!]
+  title: String
+}
+
+type User {
+  createdAt: DateTime!
+  email: String!
+  firstName: String
+  id: ID!
+  lastName: String
+  updatedAt: DateTime!
+  walletAddress: String
+}
+
+type UserStats {
+  netBalance: Float!
+  totalEarned: Float!
+  totalSpent: Float!
+  totalTransactions: Int!
+}
+
+input WalletLoginInput {
+  message: String!
+  signature: String!
+  walletAddress: String!
+}
