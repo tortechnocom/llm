@@ -5,6 +5,8 @@ import { Card, CardBody, CardHeader, Button, Chip } from '@heroui/react';
 import { Plus, TrendingUp, DollarSign, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 
+import { ThemeSwitcher } from '@/components/ThemeSwitcher';
+
 export default function DashboardPage() {
     const [myAgents, setMyAgents] = useState([]);
     const [stats, setStats] = useState({
@@ -88,21 +90,26 @@ export default function DashboardPage() {
     return (
         <div className="min-h-screen">
             <div className="container mx-auto px-4 py-8">
+
+
                 {/* Header */}
                 <div className="flex items-center justify-between mb-8">
                     <div>
                         <h1 className="text-3xl font-bold mb-2">Dashboard</h1>
                         <p className="text-gray-400">Manage your AI agents and earnings</p>
                     </div>
-                    <Button
-                        as={Link}
-                        href="/create"
-                        color="primary"
-                        size="lg"
-                        startContent={<Plus className="w-5 h-5" />}
-                    >
-                        Create Agent
-                    </Button>
+                    <div className="flex items-center gap-4">
+                        <ThemeSwitcher />
+                        <Button
+                            as={Link}
+                            href="/create"
+                            color="primary"
+                            size="lg"
+                            startContent={<Plus className="w-5 h-5" />}
+                        >
+                            Create Agent
+                        </Button>
+                    </div>
                 </div>
 
                 {/* Stats */}

@@ -1,5 +1,6 @@
 'use client';
 
+import { ThemeSwitcher } from '@/components/ThemeSwitcher';
 import { Button } from '@heroui/react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Sparkles, Brain, Coins } from 'lucide-react';
@@ -15,7 +16,10 @@ export default function Home() {
                         <Brain className="w-8 h-8 text-primary-500" />
                         <h1 className="text-2xl font-bold">LLM Platform</h1>
                     </div>
-                    <ConnectButton />
+                    <div className="flex items-center gap-4">
+                        <ThemeSwitcher />
+                        <ConnectButton />
+                    </div>
                 </div>
             </header>
 
@@ -27,7 +31,7 @@ export default function Home() {
                         <span className="text-sm text-primary-500">Powered by Blockchain & AI</span>
                     </div>
 
-                    <h2 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-primary-400 to-purple-500 bg-clip-text text-transparent">
+                    <h2 className="text-5xl md:text-7xl font-bold mb-12 pb-2 bg-gradient-to-r from-primary-400 to-purple-500 bg-clip-text text-transparent">
                         Create & Monetize
                         <br />
                         AI Agents
@@ -105,10 +109,10 @@ function FeatureCard({
     description: string;
 }) {
     return (
-        <div className="p-6 rounded-2xl bg-gray-900/50 border border-gray-800 hover:border-primary-500/50 transition-colors">
+        <div className="p-6 rounded-2xl bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 hover:border-primary-500/50 transition-colors shadow-md dark:shadow-none">
             <div className="text-primary-500 mb-4">{icon}</div>
-            <h3 className="text-xl font-bold mb-2">{title}</h3>
-            <p className="text-gray-400">{description}</p>
+            <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">{title}</h3>
+            <p className="text-gray-600 dark:text-gray-400">{description}</p>
         </div>
     );
 }

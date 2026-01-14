@@ -32,6 +32,7 @@ const config: Config = {
             themes: {
                 dark: {
                     colors: {
+                        background: '#000000',
                         primary: {
                             DEFAULT: '#0ea5e9',
                             foreground: '#ffffff',
@@ -43,7 +44,7 @@ const config: Config = {
                     colors: {
                         primary: {
                             DEFAULT: '#0ea5e9',
-                            foreground: '#ffffff',
+                            foreground: '#000000',
                         },
                         focus: '#0ea5e9',
                     },

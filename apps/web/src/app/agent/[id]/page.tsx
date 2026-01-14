@@ -6,6 +6,8 @@ import { Button, Card, CardBody, CardHeader, Input, Textarea, Modal, ModalConten
 import { ArrowLeft, Plus, Trash2, Edit2, FileText, Upload, Settings } from 'lucide-react';
 import Link from 'next/link';
 
+import { ThemeSwitcher } from '@/components/ThemeSwitcher';
+
 export default function AgentManagementPage() {
     const params = useParams();
     const router = useRouter();
@@ -255,18 +257,22 @@ export default function AgentManagementPage() {
     if (isLoading) return <div className="p-8 text-center">Loading...</div>;
     if (!agent) return <div className="p-8 text-center">Agent not found</div>;
 
+
+
     return (
         <div className="min-h-screen bg-background">
             <div className="container mx-auto px-4 py-8">
-                <Button
-                    as={Link}
-                    href="/dashboard"
-                    variant="light"
-                    startContent={<ArrowLeft className="w-4 h-4" />}
-                    className="mb-6"
-                >
-                    Back to Dashboard
-                </Button>
+                <div className="flex justify-between items-center mb-6">
+                    <Button
+                        as={Link}
+                        href="/dashboard"
+                        variant="light"
+                        startContent={<ArrowLeft className="w-4 h-4" />}
+                    >
+                        Back to Dashboard
+                    </Button>
+                    <ThemeSwitcher />
+                </div>
 
                 <div className="flex justify-between items-start mb-8">
                     <div>
