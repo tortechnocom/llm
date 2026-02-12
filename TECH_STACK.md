@@ -1,7 +1,7 @@
 # LLM RAG Platform - Redesigned Tech Stack
 
 ## Overview
-A decentralized AI agent marketplace with RAG capabilities, token-based monetization, and revenue sharing.
+A decentralized AI agent marketplace with RAG capabilities.
 
 ---
 
@@ -25,11 +25,7 @@ A decentralized AI agent marketplace with RAG capabilities, token-based monetiza
 - **TanStack Query (React Query)** - Server state & caching
 - **SWR** - Real-time data fetching for chat
 
-### Web3 Integration
-- **Wagmi v2** - React hooks for Ethereum
-- **Viem** - TypeScript Ethereum library (replaces ethers.js)
-- **RainbowKit** - Wallet connection UI
-- **WalletConnect v2** - Multi-wallet support
+
 
 ### Real-time Communication
 - **Socket.io Client** - WebSocket for live chat
@@ -121,44 +117,7 @@ A decentralized AI agent marketplace with RAG capabilities, token-based monetiza
 
 ---
 
-## 3. Blockchain Layer
-
-### Smart Contracts
-- **Solidity** - Smart contract language
-- **Hardhat** - Development environment
-  - Testing framework
-  - Deployment scripts
-  - Network management
-- **OpenZeppelin Contracts** - Secure, audited contracts
-  - ERC-20 token standard
-  - Access control
-  - Upgradeable contracts
-
-### Blockchain Network
-- **Ethereum L2 Solutions** (Cost-effective, fast)
-  - **Base** (Coinbase L2) - Recommended
-    - Low fees
-    - EVM-compatible
-    - Growing ecosystem
-  - **Arbitrum** - Alternative
-  - **Optimism** - Alternative
-  - **Polygon zkEVM** - Alternative
-
-### Blockchain Integration
-- **ethers.js v6** or **viem** - Contract interaction
-- **The Graph** - Blockchain data indexing
-  - Query transaction history
-  - Track token flows
-  - Analytics dashboard
-
-### Token Economics
-- **ERC-20 Token** - Platform currency
-- **Revenue Sharing Contract** - Automated distribution
-- **Escrow Contract** - Secure payments
-
----
-
-## 4. Infrastructure & DevOps
+## 3. Infrastructure & DevOps
 
 ### Containerization
 - **Docker** - Containerization
@@ -173,7 +132,7 @@ A decentralized AI agent marketplace with RAG capabilities, token-based monetiza
   - Testing
   - Building
   - Deployment
-  - Smart contract verification
+  - Deployment
 
 ### Hosting Options
 - **Vercel** - Frontend hosting (Next.js optimized)
@@ -193,7 +152,7 @@ A decentralized AI agent marketplace with RAG capabilities, token-based monetiza
 
 ---
 
-## 5. AI/ML Stack (llm-mlx)
+## 4. AI/ML Stack (llm-mlx)
 
 ### Purpose
 Model fine-tuning, evaluation, and custom model serving
@@ -217,7 +176,7 @@ Model fine-tuning, evaluation, and custom model serving
 
 ---
 
-## 6. Development Tools
+## 5. Development Tools
 
 ### Monorepo Management
 - **pnpm Workspaces** - Fast, efficient package manager
@@ -241,7 +200,7 @@ Model fine-tuning, evaluation, and custom model serving
 
 ---
 
-## 7. Recommended Architecture Patterns
+## 6. Recommended Architecture Patterns
 
 ### Backend Patterns
 - **Clean Architecture** - Separation of concerns
@@ -256,7 +215,7 @@ Model fine-tuning, evaluation, and custom model serving
 
 ---
 
-## 8. Security Considerations
+## 7. Security Considerations
 
 ### Application Security
 - **HTTPS/TLS** - Encrypted communication
@@ -265,11 +224,7 @@ Model fine-tuning, evaluation, and custom model serving
 - **Rate limiting** - Prevent abuse
 - **API key rotation** - Regular security updates
 
-### Blockchain Security
-- **Smart contract audits** - Professional security review
-- **Multi-sig wallets** - Admin operations
-- **Timelock contracts** - Delay critical changes
-- **Reentrancy guards** - Prevent attacks
+
 
 ### Data Privacy
 - **Encryption at rest** - Database encryption
@@ -279,7 +234,7 @@ Model fine-tuning, evaluation, and custom model serving
 
 ---
 
-## 9. Scalability Strategy
+## 8. Scalability Strategy
 
 ### Horizontal Scaling
 - **Load balancing** - Distribute traffic
@@ -295,7 +250,7 @@ Model fine-tuning, evaluation, and custom model serving
 
 ---
 
-## 10. Cost Optimization
+## 9. Cost Optimization
 
 ### Development Phase
 - **Ollama** - Free local LLM inference
@@ -326,12 +281,7 @@ Model fine-tuning, evaluation, and custom model serving
 ❌ TypeORM → **Prisma** (better DX, type safety)
 
 ### Add
-➕ **Wagmi + Viem** - Web3 integration
-➕ **LangChain.js** - LLM orchestration
-➕ **Redis + BullMQ** - Caching & queues
-➕ **Turborepo** - Monorepo management
-➕ **GraphQL** - Flexible API layer
-➕ **The Graph** - Blockchain indexing
+
 
 ---
 
@@ -342,13 +292,12 @@ llm-platform/
 ├── apps/
 │   ├── web/                 # Next.js frontend
 │   ├── api/                 # NestJS backend
-│   └── contracts/           # Smart contracts (Hardhat)
 ├── packages/
 │   ├── ui/                  # Shared UI components
 │   ├── database/            # Prisma schema & migrations
 │   ├── types/               # Shared TypeScript types
 │   ├── config/              # Shared configs (ESLint, TS)
-│   └── contracts-sdk/       # Generated contract types
+
 ├── services/
 │   └── llm-mlx/            # ML model training/serving
 ├── docker-compose.yml
@@ -363,10 +312,6 @@ llm-platform/
 
 1. **Setup monorepo** with Turborepo + pnpm
 2. **Initialize databases** (PostgreSQL + Redis)
-3. **Create smart contracts** (ERC-20 token)
-4. **Build backend API** (NestJS + Prisma)
-5. **Develop frontend** (Next.js + Web3)
-6. **Integrate LLM** (Ollama + LangChain)
-7. **Deploy to testnet** (Base Sepolia)
+
 8. **Testing & optimization**
 9. **Production deployment**

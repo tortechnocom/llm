@@ -1,0 +1,3 @@
+This is a test knowledge base file.
+The secret code is "BLUEBERRY".
+If you are asked about the secret code, respond with "BLUEBERRY".

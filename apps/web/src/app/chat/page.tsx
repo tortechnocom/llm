@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Card, CardBody, Input, Button, Avatar } from '@heroui/react';
 import { Send, Bot, User } from 'lucide-react';
@@ -12,7 +12,7 @@ interface Message {
     timestamp: Date;
 }
 
-export default function ChatPage() {
+function ChatContent() {
     const searchParams = useSearchParams();
     const agentId = searchParams.get('agentId');
 
@@ -217,5 +217,13 @@ export default function ChatPage() {
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function ChatPage() {
+    return (
+        <Suspense fallback={<div>Loading chat...</div>}>
+            <ChatContent />
+        </Suspense>
     );
 }

@@ -1,9 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { verifyMessage } from 'viem';
+
 import { PrismaService } from '../prisma/prisma.service';
-import { LoginInput, RegisterInput, WalletLoginInput } from './dto/auth.input';
+import { LoginInput, RegisterInput } from './dto/auth.input';
 import { AuthResponse } from './dto/auth.response';
 
 @Injectable()
@@ -75,44 +75,7 @@ export class AuthService {
         };
     }
 
-    async walletLogin(input: WalletLoginInput): Promise<AuthResponse> {
-        const { walletAddress, signature, message } = input;
 
-        // Verify signature
-        const isValid = await verifyMessage({
-            address: walletAddress as `0x${string}`,
-            message,
-            signature: signature as `0x${string}`,
-        });
-
-        if (!isValid) {
-            throw new UnauthorizedException('Invalid signature');
-        }
-
-        // Find or create user
-        let user = await this.prisma.user.findUnique({
-            where: { walletAddress },
-        });
-
-        if (!user) {
-            // Create new user with wallet
-            user = await this.prisma.user.create({
-                data: {
-                    walletAddress,
-                    email: `${walletAddress}@wallet.local`, // Placeholder email
-                    password: '', // No password for wallet users
-                },
-            });
-        }
-
-        // Generate JWT
-        const token = this.generateToken(user.id);
-
-        return {
-            token,
-            user,
-        };
-    }
 
     async validateUser(userId: string) {
         const user = await this.prisma.user.findUnique({
@@ -130,9 +93,5 @@ export class AuthService {
         return this.jwtService.sign({ sub: userId });
     }
 
-    async getNonce(walletAddress: string): Promise<string> {
-        // Generate a nonce for wallet signature
-        const nonce = `Sign this message to authenticate with LLM Platform.\nAddress: ${walletAddress}\nNonce: ${Date.now()}`;
-        return nonce;
-    }
+
 }

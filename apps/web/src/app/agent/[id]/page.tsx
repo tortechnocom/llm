@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { Button, Card, CardBody, CardHeader, Input, Textarea, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure, Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip, Switch } from '@heroui/react';
 import { ArrowLeft, Plus, Trash2, Edit2, FileText, Upload, Settings } from 'lucide-react';
 import Link from 'next/link';
@@ -10,7 +10,7 @@ import { ThemeSwitcher } from '@/components/ThemeSwitcher';
 
 export default function AgentManagementPage() {
     const params = useParams();
-    const router = useRouter();
+
     const [agent, setAgent] = useState<any>(null);
     const [knowledgeBase, setKnowledgeBase] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);

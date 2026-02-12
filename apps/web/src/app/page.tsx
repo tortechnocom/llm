@@ -2,8 +2,8 @@
 
 import { ThemeSwitcher } from '@/components/ThemeSwitcher';
 import { Button } from '@heroui/react';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { Sparkles, Brain, Coins } from 'lucide-react';
+
+import { Brain, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Home() {
@@ -18,7 +18,7 @@ export default function Home() {
                     </div>
                     <div className="flex items-center gap-4">
                         <ThemeSwitcher />
-                        <ConnectButton />
+
                     </div>
                 </div>
             </header>
@@ -28,7 +28,7 @@ export default function Home() {
                 <div className="max-w-4xl mx-auto">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-500/10 border border-primary-500/20 mb-6">
                         <Sparkles className="w-4 h-4 text-primary-500" />
-                        <span className="text-sm text-primary-500">Powered by Blockchain & AI</span>
+                        <span className="text-sm text-primary-500">Powered by Advanced AI</span>
                     </div>
 
                     <h2 className="text-5xl md:text-7xl font-bold mb-12 pb-2 bg-gradient-to-r from-primary-400 to-purple-500 bg-clip-text text-transparent">
@@ -37,10 +37,7 @@ export default function Home() {
                         AI Agents
                     </h2>
 
-                    <p className="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
-                        Build intelligent AI agents with custom knowledge bases, share them with the world,
-                        and earn tokens when others use your creations.
-                    </p>
+                    Build intelligent AI agents with custom knowledge bases and share them with the world.
 
                     <div className="flex gap-4 justify-center">
                         <Button
@@ -74,14 +71,9 @@ export default function Home() {
                         description="Train agents with your own knowledge base using RAG technology. Specialize in any domain."
                     />
                     <FeatureCard
-                        icon={<Coins className="w-12 h-12" />}
-                        title="Earn Tokens"
-                        description="Get paid when others use your agents. Automatic revenue sharing via smart contracts."
-                    />
-                    <FeatureCard
                         icon={<Sparkles className="w-12 h-12" />}
-                        title="Blockchain Powered"
-                        description="Transparent payments on Base L2. Low fees, fast transactions, full ownership."
+                        title="Share & Collaborate"
+                        description="Share your agents with the community or keep them private. Collaborate on knowledge bases."
                     />
                 </div>
             </section>

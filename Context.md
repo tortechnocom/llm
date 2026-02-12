@@ -1,5 +1,5 @@
 LLM (RAG) Platform
-User can create llm agent and public to other user by using system ERC-20 Token, agent creator get token from other user how use the agent then share revenue with platform 
+User can create llm agent and public to other user
 
 
 Features
@@ -37,7 +37,7 @@ Data Model
   - metadata jsonb,       -- เก็บข้อมูลเฉพาะทาง เช่น { "temp": "25C", "ingredient": "salt" }
   - tags text[],          -- เช่น ['organic', 'quantum', 'dessert']
   - created_at timestamptz DEFAULT now()
-4. TokenTransactions (Table สำหรับระบบ Token Billing (หัวใจของรายได้))
+4. TokenTransactions (Table สำหรับระบบ Token Billing (หัวใจของรายได้ ยังไม่ได้เอาไปใช้ในการจำกัดการใช้งานของ Agent))
   - id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   - user_id uuid REFERENCES auth.users(id),
   - agent_id uuid REFERENCES agents(id),

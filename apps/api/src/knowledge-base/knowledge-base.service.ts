@@ -160,7 +160,7 @@ export class KnowledgeBaseService {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    model: 'all-minilm',
+                    model: 'llama3',
                     prompt: text,
                 }),
             });

@@ -104,7 +104,6 @@ type Mutation {
   register(input: RegisterInput!): AuthResponse!
   updateAgent(id: String!, input: UpdateAgentInput!): Agent!
   updateKnowledge(input: UpdateKnowledgeInput!): KnowledgeBase!
-  walletLogin(input: WalletLoginInput!): AuthResponse!
 }
 
 type Query {
@@ -112,7 +111,6 @@ type Query {
   agentTransactions(agentId: String!): [TokenTransaction!]!
   agents(isPublic: Boolean): [Agent!]!
   chatSession(id: String!): ChatSession!
-  getNonce(walletAddress: String!): String!
   knowledgeByAgent(agentId: String!): [KnowledgeBase!]!
   me: User!
   myAgents: [Agent!]!
@@ -183,10 +181,4 @@ type UserStats {
   totalEarned: Float!
   totalSpent: Float!
   totalTransactions: Int!
-}
-
-input WalletLoginInput {
-  message: String!
-  signature: String!
-  walletAddress: String!
 }

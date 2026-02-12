@@ -34,17 +34,4 @@ export class LoginInput {
     password: string;
 }
 
-@InputType()
-export class WalletLoginInput {
-    @Field()
-    @IsString()
-    walletAddress: string;
 
-    @Field()
-    @IsString()
-    signature: string;
-
-    @Field()
-    @IsString()
-    message: string;
-}

@@ -171,15 +171,4 @@ describe('AuthService', () => {
             );
         });
     });
-
-    describe('getNonce', () => {
-        it('should generate a nonce for wallet address', async () => {
-            const walletAddress = '0x1234567890abcdef';
-
-            const nonce = await service.getNonce(walletAddress);
-
-            expect(nonce).toContain('Sign this message');
-            expect(nonce).toContain('Nonce:');
-        });
-    });
 });

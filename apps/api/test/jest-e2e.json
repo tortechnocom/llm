@@ -1,0 +1,20 @@
+{
+    "moduleFileExtensions": [
+        "js",
+        "json",
+        "ts"
+    ],
+    "rootDir": ".",
+    "testEnvironment": "node",
+    "testRegex": ".e2e-spec.ts$",
+    "transform": {
+        "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "moduleNameMapper": {
+        "^@llm-platform/database(|/.*)$": "<rootDir>/../../../packages/database/$1"
+    },
+    "transformIgnorePatterns": [
+        "node_modules/(?!(ollama|langchain)/)"
+    ],
+    "preset": "ts-jest/presets/js-with-ts"
+}

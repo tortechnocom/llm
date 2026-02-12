@@ -18,7 +18,7 @@ model User {
   password  String
   firstName String?  @map("first_name")
   lastName  String?  @map("last_name")
-  walletAddress String? @unique @map("wallet_address")
+
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
@@ -85,7 +85,7 @@ model TokenTransaction {
   tokensUsed      Int             @map("tokens_used")
   amountDeducted  Decimal         @map("amount_deducted") @db.Decimal(10, 4)
   transactionType TransactionType @map("transaction_type")
-  txHash          String?         @map("tx_hash") @db.VarChar(66) // Ethereum transaction hash
+
   createdAt       DateTime        @default(now()) @map("created_at") @db.Timestamptz
 
   // Relations

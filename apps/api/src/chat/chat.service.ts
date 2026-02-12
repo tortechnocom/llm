@@ -188,7 +188,7 @@ export class ChatService {
         // Stream response
         let fullResponse = '';
         const stream = await this.ollama.generate({
-            model: 'tinyllama', // or mistral, or any model you have
+            model: 'llama3', // or mistral, or any model you have
             prompt,
             stream: true,
         });
@@ -234,14 +234,14 @@ Assistant:`;
         prompt: string,
     ): Promise<{ content: string; model: string; tokensUsed: number }> {
         const response = await this.ollama.generate({
-            model: 'tinyllama',
+            model: 'llama3',
             prompt,
             stream: false,
         });
 
         return {
             content: response.response,
-            model: 'tinyllama',
+            model: 'llama3',
             tokensUsed: response.eval_count || 0,
         };
     }
