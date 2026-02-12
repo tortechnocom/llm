@@ -23,14 +23,43 @@ function ChatContent() {
     const [sessionId, setSessionId] = useState<string | null>(null);
     const [currentUserId, setCurrentUserId] = useState<string | null>(null);
     const [socket, setSocket] = useState<Socket | null>(null);
+    const [agentName, setAgentName] = useState<string>('');
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (agentId) {
+            fetchAgentInfo();
             createSession();
         }
     }, [agentId]);
+
+    const fetchAgentInfo = async () => {
+        try {
+            const response = await fetch(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    query: `
+                        query GetAgent($id: String!) {
+                            agent(id: $id) {
+                                id
+                                name
+                            }
+                        }
+                    `,
+                    variables: { id: agentId },
+                }),
+            });
+
+            const result = await response.json();
+            if (result.data?.agent) {
+                setAgentName(result.data.agent.name);
+            }
+        } catch (error) {
+            console.error('Failed to fetch agent info:', error);
+        }
+    };
 
     useEffect(() => {
         if (sessionId) {
@@ -154,7 +183,9 @@ function ChatContent() {
                     >
                         <ArrowLeft className="w-5 h-5" />
                     </Button>
-                    <h1 className="text-xl font-bold">AI Chat</h1>
+                    <h1 className="text-xl font-bold">
+                        Chat with Agent {agentName && `> ${agentName}`}
+                    </h1>
                 </div>
             </div>
 
