@@ -4,19 +4,32 @@ import { ChatService } from './chat.service';
 import { ChatSession } from './entities/chat.entity';
 import { CreateSessionInput } from './dto/chat.input';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { OptionalJwtAuthGuard } from '../auth/guards/optional-jwt-auth.guard';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { User } from '../users/entities/user.entity';
+import { AgentsService } from '../agents/agents.service';
 
 @Resolver(() => ChatSession)
 export class ChatResolver {
-    constructor(private chatService: ChatService) { }
+    constructor(
+        private chatService: ChatService,
+        private agentsService: AgentsService,
+    ) { }
 
     @Mutation(() => ChatSession)
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(OptionalJwtAuthGuard)
     async createChatSession(
         @Args('input') input: CreateSessionInput,
-        @CurrentUser() user: User,
+        @CurrentUser() user?: User,
     ): Promise<ChatSession> {
+        console.log('Creating public session');
+        if (!user) {
+            const agent = await this.agentsService.findOne(input.agentId);
+            if (!agent.isPublic) {
+                throw new Error('Unauthorized: Agent is private');
+            }
+            return this.chatService.createSession(null, input.agentId, input.title);
+        }
         return this.chatService.createSession(user.id, input.agentId, input.title);
     }
 

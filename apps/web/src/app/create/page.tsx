@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardBody, CardHeader, Input, Textarea, Button, Switch, Slider } from '@heroui/react';
 import { Brain, DollarSign, Globe } from 'lucide-react';
@@ -9,6 +9,14 @@ import { ThemeSwitcher } from '@/components/ThemeSwitcher';
 export default function CreateAgentPage() {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            router.push('/login');
+        }
+    }, [router]);
+
     const [formData, setFormData] = useState({
         name: '',
         domain: '',

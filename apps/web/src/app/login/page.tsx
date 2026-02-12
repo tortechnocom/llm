@@ -12,13 +12,14 @@ export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
 
     const handleEmailLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
+        setError('');
 
         try {
-            // TODO: Implement GraphQL mutation
             const response = await fetch(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -35,14 +36,20 @@ export default function LoginPage() {
                 }),
             });
 
-            const { data } = await response.json();
+            const result = await response.json();
 
-            if (data?.login?.token) {
-                localStorage.setItem('token', data.login.token);
+            if (result.errors) {
+                setError(result.errors[0]?.message || 'Login failed');
+                return;
+            }
+
+            if (result.data?.login?.token) {
+                localStorage.setItem('token', result.data.login.token);
                 router.push('/dashboard');
             }
         } catch (error) {
             console.error('Login failed:', error);
+            setError('An unexpected error occurred');
         } finally {
             setIsLoading(false);
         }
@@ -80,6 +87,11 @@ export default function LoginPage() {
                             startContent={<Lock className="w-4 h-4 text-gray-400" />}
                             required
                         />
+                        {error && (
+                            <div className="bg-danger-500/10 border border-danger-500 text-danger-500 px-4 py-3 rounded-lg text-sm">
+                                {error}
+                            </div>
+                        )}
                         <Button
                             type="submit"
                             color="primary"

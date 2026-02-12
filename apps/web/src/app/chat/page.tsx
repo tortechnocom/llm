@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect, useRef, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { Card, CardBody, Input, Button, Avatar } from '@heroui/react';
-import { Send, Bot, User } from 'lucide-react';
+import { Send, Bot, User, ArrowLeft } from 'lucide-react';
 import { io, Socket } from 'socket.io-client';
 
 interface Message {
@@ -13,6 +13,7 @@ interface Message {
 }
 
 function ChatContent() {
+    const router = useRouter();
     const searchParams = useSearchParams();
     const agentId = searchParams.get('agentId');
 
@@ -98,7 +99,7 @@ function ChatContent() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 },
                 body: JSON.stringify({
                     query: `
@@ -113,16 +114,22 @@ function ChatContent() {
                 }),
             });
 
-            const { data } = await response.json();
-            setSessionId(data?.createChatSession?.id);
-            setCurrentUserId(data?.createChatSession?.userId);
+            const responseData = await response.json();
+            console.log('Create session response:', responseData);
+
+            if (responseData.errors) {
+                console.error('GraphQL Errors:', responseData.errors);
+            }
+
+            setSessionId(responseData.data?.createChatSession?.id);
+            setCurrentUserId(responseData.data?.createChatSession?.userId);
         } catch (error) {
             console.error('Failed to create session:', error);
         }
     };
 
     const handleSend = async () => {
-        if (!input.trim() || !sessionId || !socket || !currentUserId) return;
+        if (!input.trim() || !sessionId || !socket) return;
 
         const userMessage = input;
         setInput('');
@@ -136,10 +143,17 @@ function ChatContent() {
     };
 
     return (
-        <div className="h-screen flex flex-col">
-            {/* Header */}
+        <div className="h-[calc(100vh-64px)] flex flex-col">
+            {/* Sub Header / Toolbar */}
             <div className="border-b border-gray-800 bg-gray-900/50 backdrop-blur p-4">
-                <div className="container mx-auto">
+                <div className="container mx-auto flex items-center gap-4">
+                    <Button
+                        isIconOnly
+                        variant="light"
+                        onPress={() => router.back()}
+                    >
+                        <ArrowLeft className="w-5 h-5" />
+                    </Button>
                     <h1 className="text-xl font-bold">AI Chat</h1>
                 </div>
             </div>

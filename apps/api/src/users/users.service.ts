@@ -17,11 +17,13 @@ export class UsersService {
         });
     }
 
+    /*
     async findByWalletAddress(walletAddress: string) {
         return this.prisma.user.findUnique({
             where: { walletAddress },
         });
     }
+    */
 
     async updateUser(id: string, data: any) {
         return this.prisma.user.update({

@@ -43,7 +43,7 @@ type ChatSession {
   messages: [ChatMessage!]
   title: String
   updatedAt: DateTime!
-  userId: String!
+  userId: String
 }
 
 input CreateAgentInput {

@@ -21,13 +21,13 @@ export class ChatService {
         this.ollama = new Ollama({ host: ollamaUrl });
     }
 
-    async createSession(userId: string, agentId: string, title?: string) {
+    async createSession(userId: string | null, agentId: string, title?: string) {
         // Verify agent exists
         await this.agentsService.findOne(agentId);
 
         return this.prisma.chatSession.create({
             data: {
-                userId,
+                userId: userId || undefined,
                 agentId,
                 title: title || 'New Chat',
             },
@@ -59,7 +59,7 @@ export class ChatService {
     }
 
     async sendMessage(
-        userId: string,
+        userId: string | null,
         sessionId: string,
         content: string,
     ): Promise<{ message: any; response: string; tokensUsed: number }> {
@@ -127,13 +127,15 @@ export class ChatService {
 
         // Record token usage
         const cost = response.tokensUsed * agent.tokenPriceMultiplier * 0.0001; // Example pricing
-        await this.tokenTransactionsService.create({
-            userId,
-            agentId: session.agentId,
-            tokensUsed: response.tokensUsed,
-            amountDeducted: cost,
-            transactionType: 'USAGE',
-        });
+        if (userId) {
+            await this.tokenTransactionsService.create({
+                userId,
+                agentId: session.agentId,
+                tokensUsed: response.tokensUsed,
+                amountDeducted: cost,
+                transactionType: 'USAGE',
+            });
+        }
 
         return {
             message: assistantMessage,
@@ -143,15 +145,19 @@ export class ChatService {
     }
 
     async *streamMessage(
-        userId: string,
+        userId: string | null,
         sessionId: string,
         content: string,
     ): AsyncGenerator<string> {
         console.log('Service streamMessage called:', { userId, sessionId, content });
         // Get session and verify ownership
         const session = await this.getSession(sessionId);
-        if (!session || session.userId !== userId) {
-            throw new Error('Session not found or unauthorized');
+        if (!session) {
+            throw new Error('Session not found');
+        }
+
+        if (session.userId && session.userId !== userId) {
+            throw new Error('Unauthorized');
         }
 
         // Get agent

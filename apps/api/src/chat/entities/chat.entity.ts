@@ -27,8 +27,8 @@ export class ChatSession {
     @Field(() => ID)
     id: string;
 
-    @Field()
-    userId: string;
+    @Field({ nullable: true })
+    userId?: string;
 
     @Field()
     agentId: string;

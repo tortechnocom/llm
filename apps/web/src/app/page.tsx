@@ -1,6 +1,6 @@
 'use client';
 
-import { ThemeSwitcher } from '@/components/ThemeSwitcher';
+
 import { Button } from '@heroui/react';
 
 import { Brain, Sparkles } from 'lucide-react';
@@ -8,21 +8,7 @@ import Link from 'next/link';
 
 export default function Home() {
     return (
-        <main className="min-h-screen">
-            {/* Header */}
-            <header className="border-b border-gray-800">
-                <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-                    <div className="flex items-center gap-2">
-                        <Brain className="w-8 h-8 text-primary-500" />
-                        <h1 className="text-2xl font-bold">LLM Platform</h1>
-                    </div>
-                    <div className="flex items-center gap-4">
-                        <ThemeSwitcher />
-
-                    </div>
-                </div>
-            </header>
-
+        <div className="min-h-full">
             {/* Hero Section */}
             <section className="container mx-auto px-4 py-20 text-center">
                 <div className="max-w-4xl mx-auto">
@@ -87,7 +73,7 @@ export default function Home() {
                     <StatCard value="99.9%" label="Uptime" />
                 </div>
             </section>
-        </main>
+        </div>
     );
 }
 

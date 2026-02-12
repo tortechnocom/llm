@@ -36,6 +36,14 @@ export default function AgentManagementPage() {
     });
 
     useEffect(() => {
+        // Check authentication first
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('Please login to manage agents');
+            window.location.href = '/login';
+            return;
+        }
+
         if (params.id) {
             fetchAgentData();
         }
@@ -62,6 +70,7 @@ export default function AgentManagementPage() {
                                 domain
                                 isPublic
                                 systemPrompt
+                                trainerId
                             }
                             knowledgeByAgent(agentId: $id) {
                                 id
@@ -70,19 +79,41 @@ export default function AgentManagementPage() {
                                 tags
                                 createdAt
                             }
+                            me {
+                                id
+                            }
                         }
                     `,
                     variables: { id: agentId },
                 }),
             });
 
-            const { data } = await response.json();
+            const result = await response.json();
+
+            if (result.errors) {
+                console.error('GraphQL errors:', result.errors);
+                alert('Failed to load agent data');
+                window.location.href = '/dashboard';
+                return;
+            }
+
+            const { data } = result;
+
             if (data) {
+                // Verify ownership
+                if (data.agent.trainerId !== data.me.id) {
+                    alert('You can only manage your own agents');
+                    window.location.href = '/dashboard';
+                    return;
+                }
+
                 setAgent(data.agent);
                 setKnowledgeBase(data.knowledgeByAgent || []);
             }
         } catch (error) {
             console.error('Error fetching agent data:', error);
+            alert('Failed to load agent data');
+            window.location.href = '/dashboard';
         } finally {
             setIsLoading(false);
         }
@@ -246,11 +277,22 @@ export default function AgentManagementPage() {
             });
 
             const result = await response.json();
+
+            if (result.errors) {
+                console.error('GraphQL Errors:', result.errors);
+                alert(`Failed to delete: ${result.errors[0]?.message || 'Unknown error'}`);
+                return;
+            }
+
             if (result.data?.deleteKnowledge) {
-                fetchAgentData(); // Refresh list
+                await fetchAgentData(); // Refresh list
+                alert('Knowledge item deleted successfully!');
+            } else {
+                alert('Failed to delete knowledge item');
             }
         } catch (error) {
             console.error('Error deleting knowledge:', error);
+            alert('An error occurred while deleting the knowledge item');
         }
     };
 

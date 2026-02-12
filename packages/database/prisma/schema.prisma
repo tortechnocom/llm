@@ -57,7 +57,7 @@ model KnowledgeBase {
   agentId   String                 @map("agent_id") @db.Uuid
   title     String?                @db.Text
   content   String                 @db.Text
-  embedding Unsupported("vector(768)")?
+  embedding Unsupported("vector(4096)")?
   metadata  Json?                  @db.JsonB
   tags      String[]
   createdAt DateTime               @default(now()) @map("created_at") @db.Timestamptz
@@ -101,7 +101,7 @@ model TokenTransaction {
 
 model ChatSession {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId    String   @map("user_id") @db.Uuid
+  userId    String?  @map("user_id") @db.Uuid
   agentId   String   @map("agent_id") @db.Uuid
   title     String?  @db.VarChar(255)
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
