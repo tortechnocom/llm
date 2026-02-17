@@ -35,6 +35,12 @@ export default function AgentManagementPage() {
         tags: '',
     });
 
+    // Delete Modal State
+    const { isOpen: isDeleteOpen, onOpen: onOpenDelete, onClose: onCloseDelete, onOpenChange: onDeleteOpenChange } = useDisclosure();
+    const [itemToDelete, setItemToDelete] = useState<string | null>(null);
+    const [isSaving, setIsSaving] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+
     useEffect(() => {
         // Check authentication first
         const token = localStorage.getItem('token');
@@ -138,6 +144,7 @@ export default function AgentManagementPage() {
     };
 
     const handleSubmit = async () => {
+        setIsSaving(true);
         try {
             const token = localStorage.getItem('token');
             const tagsArray = formData.tags ? formData.tags.split(',').map(t => t.trim()).filter(Boolean) : [];
@@ -199,6 +206,8 @@ export default function AgentManagementPage() {
             }
         } catch (error) {
             console.error('Error submitting form:', error);
+        } finally {
+            setIsSaving(false);
         }
     };
 
@@ -255,8 +264,14 @@ export default function AgentManagementPage() {
         }
     };
 
-    const handleDelete = async (id: string) => {
-        if (!confirm('Are you sure you want to delete this knowledge item?')) return;
+    const handleDelete = (id: string) => {
+        setItemToDelete(id);
+        onOpenDelete();
+    };
+
+    const confirmDelete = async () => {
+        if (!itemToDelete) return;
+        setIsDeleting(true);
 
         try {
             const token = localStorage.getItem('token');
@@ -272,7 +287,7 @@ export default function AgentManagementPage() {
                             deleteKnowledge(id: $id)
                         }
                     `,
-                    variables: { id },
+                    variables: { id: itemToDelete },
                 }),
             });
 
@@ -286,13 +301,16 @@ export default function AgentManagementPage() {
 
             if (result.data?.deleteKnowledge) {
                 await fetchAgentData(); // Refresh list
-                alert('Knowledge item deleted successfully!');
+                onCloseDelete();
+                setItemToDelete(null);
             } else {
                 alert('Failed to delete knowledge item');
             }
         } catch (error) {
             console.error('Error deleting knowledge:', error);
             alert('An error occurred while deleting the knowledge item');
+        } finally {
+            setIsDeleting(false);
         }
     };
 
@@ -423,7 +441,29 @@ export default function AgentManagementPage() {
                 </Card>
             </div>
 
-            <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="2xl">
+            {/* Delete Confirmation Modal */}
+            <Modal isOpen={isDeleteOpen} onOpenChange={onDeleteOpenChange}>
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader>Confirm Deletion</ModalHeader>
+                            <ModalBody>
+                                <p>Are you sure you want to delete this knowledge item? This action cannot be undone.</p>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button variant="light" onPress={onClose} isDisabled={isDeleting}>
+                                    Cancel
+                                </Button>
+                                <Button color="danger" onPress={confirmDelete} isLoading={isDeleting}>
+                                    {isDeleting ? 'Deleting...' : 'Delete'}
+                                </Button>
+                            </ModalFooter>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
+
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="2xl" isDismissable={!isSaving} hideCloseButton={isSaving}>
                 <ModalContent>
                     {(onClose) => (
                         <>
@@ -436,6 +476,7 @@ export default function AgentManagementPage() {
                                     placeholder="Enter document title"
                                     value={formData.title}
                                     onValueChange={(val) => setFormData({ ...formData, title: val })}
+                                    isDisabled={isSaving}
                                 />
                                 <Textarea
                                     label="Content"
@@ -443,20 +484,22 @@ export default function AgentManagementPage() {
                                     minRows={8}
                                     value={formData.content}
                                     onValueChange={(val) => setFormData({ ...formData, content: val })}
+                                    isDisabled={isSaving}
                                 />
                                 <Input
                                     label="Tags (comma separated)"
                                     placeholder="e.g. farming, irrigation, crops"
                                     value={formData.tags}
                                     onValueChange={(val) => setFormData({ ...formData, tags: val })}
+                                    isDisabled={isSaving}
                                 />
                             </ModalBody>
                             <ModalFooter>
-                                <Button color="danger" variant="light" onPress={onClose}>
+                                <Button color="danger" variant="light" onPress={onClose} isDisabled={isSaving}>
                                     Cancel
                                 </Button>
-                                <Button color="primary" onPress={handleSubmit}>
-                                    Save
+                                <Button color="primary" onPress={handleSubmit} isLoading={isSaving}>
+                                    {isSaving ? 'Saving...' : 'Save'}
                                 </Button>
                             </ModalFooter>
                         </>
