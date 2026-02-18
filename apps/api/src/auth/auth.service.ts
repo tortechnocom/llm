@@ -132,4 +132,19 @@ export class AuthService {
         const token = this.generateToken(user.id);
         return { token, user };
     }
+
+    async requestDataDeletion(email: string, confirmationCode: string): Promise<void> {
+        const user = await this.prisma.user.findUnique({ where: { email } });
+        if (user) {
+            // Clear social login associations immediately
+            await this.prisma.user.update({
+                where: { id: user.id },
+                data: {
+                    googleId: null,
+                    facebookId: null,
+                },
+            });
+            // In production: queue a full account deletion job with the confirmationCode
+        }
+    }
 }

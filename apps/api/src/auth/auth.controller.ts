@@ -1,4 +1,4 @@
-import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { ConfigService } from '@nestjs/config';
@@ -40,5 +40,23 @@ export class AuthController {
     async facebookCallback(@Req() req: any, @Res() res: any) {
         const { token } = await this.authService.validateSocialUser(req.user);
         res.redirect(`${this.frontendUrl}/login?token=${token}`);
+    }
+
+    // Facebook Data Deletion Callback
+    @Post('data-deletion')
+    async dataDeletion(@Body() body: { email?: string; signed_request?: string }) {
+        const confirmationCode = `DEL-${Date.now()}`;
+
+        if (body.email) {
+            // User-initiated deletion via the frontend form
+            await this.authService.requestDataDeletion(body.email, confirmationCode);
+        }
+
+        // Facebook sends a signed_request for server-to-server deletion callbacks
+        return {
+            url: `${this.frontendUrl}/user-data-deletion`,
+            confirmation_code: confirmationCode,
+            confirmationCode,
+        };
     }
 }
