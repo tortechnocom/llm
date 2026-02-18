@@ -54,3 +54,15 @@ export class UserStats {
     @Field(() => Float)
     netBalance: number;
 }
+
+@ObjectType()
+export class MarketplaceStats {
+    @Field(() => Int)
+    totalChats: number;
+
+    @Field(() => Int)
+    totalAgents: number;
+
+    @Field(() => Int)
+    totalCreators: number;
+}

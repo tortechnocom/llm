@@ -79,4 +79,22 @@ export class TokenTransactionsService {
             netBalance: totalEarned - totalSpent,
         };
     }
+
+    async getMarketplaceStats() {
+        const [totalChats, totalAgents, creators] = await Promise.all([
+            this.prisma.chatSession.count(),
+            this.prisma.agent.count({ where: { isPublic: true } }),
+            this.prisma.agent.findMany({
+                where: { isPublic: true },
+                select: { trainerId: true },
+                distinct: ['trainerId'],
+            }),
+        ]);
+
+        return {
+            totalChats,
+            totalAgents,
+            totalCreators: creators.length,
+        };
+    }
 }

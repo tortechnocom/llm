@@ -93,6 +93,12 @@ input LoginInput {
   password: String!
 }
 
+type MarketplaceStats {
+  totalAgents: Int!
+  totalChats: Int!
+  totalCreators: Int!
+}
+
 type Mutation {
   createAgent(input: CreateAgentInput!): Agent!
   createChatSession(input: CreateSessionInput!): ChatSession!
@@ -112,6 +118,7 @@ type Query {
   agents(isPublic: Boolean): [Agent!]!
   chatSession(id: String!): ChatSession!
   knowledgeByAgent(agentId: String!): [KnowledgeBase!]!
+  marketplaceStats: MarketplaceStats!
   me: User!
   myAgents: [Agent!]!
   myChatSessions: [ChatSession!]!

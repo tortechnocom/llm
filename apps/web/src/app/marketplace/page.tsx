@@ -25,9 +25,15 @@ export default function MarketplacePage() {
     const [agents, setAgents] = useState<Agent[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [isLoading, setIsLoading] = useState(true);
+    const [marketplaceStats, setMarketplaceStats] = useState({
+        totalChats: 0,
+        totalAgents: 0,
+        totalCreators: 0,
+    });
 
     useEffect(() => {
         fetchAgents();
+        fetchMarketplaceStats();
     }, []);
 
     const fetchAgents = async () => {
@@ -64,6 +70,32 @@ export default function MarketplacePage() {
             console.error('Failed to fetch agents:', error);
         } finally {
             setIsLoading(false);
+        }
+    };
+
+    const fetchMarketplaceStats = async () => {
+        try {
+            const response = await fetch(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    query: `
+            query MarketplaceStats {
+              marketplaceStats {
+                totalChats
+                totalAgents
+                totalCreators
+              }
+            }
+          `,
+                }),
+            });
+            const { data } = await response.json();
+            if (data?.marketplaceStats) {
+                setMarketplaceStats(data.marketplaceStats);
+            }
+        } catch (error) {
+            console.error('Failed to fetch marketplace stats:', error);
         }
     };
 
@@ -108,7 +140,7 @@ export default function MarketplacePage() {
                                 <Zap className="w-6 h-6 text-primary-500" />
                             </div>
                             <div>
-                                <p className="text-2xl font-bold">{agents.length}</p>
+                                <p className="text-2xl font-bold">{marketplaceStats.totalAgents}</p>
                                 <p className="text-sm text-gray-400">Active Agents</p>
                             </div>
                         </CardBody>
@@ -119,9 +151,7 @@ export default function MarketplacePage() {
                                 <Users className="w-6 h-6 text-green-500" />
                             </div>
                             <div>
-                                <p className="text-2xl font-bold">
-                                    {new Set(agents.map((a) => a.trainer)).size}
-                                </p>
+                                <p className="text-2xl font-bold">{marketplaceStats.totalCreators}</p>
                                 <p className="text-sm text-gray-400">Creators</p>
                             </div>
                         </CardBody>
@@ -132,9 +162,7 @@ export default function MarketplacePage() {
                                 <TrendingUp className="w-6 h-6 text-purple-500" />
                             </div>
                             <div>
-                                <p className="text-2xl font-bold">
-                                    {agents.reduce((sum, a) => sum + a._count.tokenTransactions, 0)}
-                                </p>
+                                <p className="text-2xl font-bold">{marketplaceStats.totalChats}</p>
                                 <p className="text-sm text-gray-400">Total Chats</p>
                             </div>
                         </CardBody>

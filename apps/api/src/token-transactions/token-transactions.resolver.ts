@@ -1,7 +1,7 @@
 import { Resolver, Query, Args } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { TokenTransactionsService } from './token-transactions.service';
-import { TokenTransaction, UserStats } from './entities/token-transaction.entity';
+import { TokenTransaction, UserStats, MarketplaceStats } from './entities/token-transaction.entity';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { User } from '../users/entities/user.entity';
@@ -25,5 +25,10 @@ export class TokenTransactionsResolver {
     @UseGuards(JwtAuthGuard)
     async myStats(@CurrentUser() user: User): Promise<UserStats> {
         return this.tokenTransactionsService.getUserStats(user.id);
+    }
+
+    @Query(() => MarketplaceStats)
+    async marketplaceStats(): Promise<MarketplaceStats> {
+        return this.tokenTransactionsService.getMarketplaceStats();
     }
 }
