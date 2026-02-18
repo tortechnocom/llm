@@ -1,18 +1,29 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import { Button, Input, Card, CardBody, CardHeader } from '@heroui/react';
 
 import { Mail, Lock } from 'lucide-react';
 
 export default function LoginPage() {
     const router = useRouter();
+    const searchParams = useSearchParams();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
+
+    // Handle token from social login callback
+    useEffect(() => {
+        const token = searchParams.get('token');
+        if (token) {
+            localStorage.setItem('token', token);
+            router.push('/dashboard');
+        }
+    }, [searchParams, router]);
 
     const handleEmailLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -55,8 +66,6 @@ export default function LoginPage() {
         }
     };
 
-
-
     return (
         <div className="min-h-screen flex items-center justify-center p-4">
             <Card className="w-full max-w-md">
@@ -65,7 +74,34 @@ export default function LoginPage() {
                     <p className="text-gray-400">Sign in to your account</p>
                 </CardHeader>
                 <CardBody className="gap-6">
+                    {/* Social Login Buttons */}
+                    <div className="flex flex-col gap-2">
+                        <Button
+                            as={Link}
+                            href={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api'}/auth/google`}
+                            variant="bordered"
+                            startContent={<img src="https://www.svgrepo.com/show/475656/google-color.svg" className="w-5 h-5" alt="Google" />}
+                        >
+                            Continue with Google
+                        </Button>
+                        <Button
+                            as={Link}
+                            href={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api'}/auth/facebook`}
+                            variant="bordered"
+                            startContent={<img src="https://www.svgrepo.com/show/475647/facebook-color.svg" className="w-5 h-5" alt="Facebook" />}
+                        >
+                            Continue with Facebook
+                        </Button>
+                    </div>
 
+                    <div className="relative">
+                        <div className="absolute inset-0 flex items-center">
+                            <span className="w-full border-t border-gray-700" />
+                        </div>
+                        <div className="relative flex justify-center text-xs uppercase">
+                            <span className="bg-content1 px-2 text-gray-400">Or continue with</span>
+                        </div>
+                    </div>
 
                     {/* Email Login */}
                     <form onSubmit={handleEmailLogin} className="space-y-4">
@@ -104,7 +140,7 @@ export default function LoginPage() {
                     </form>
 
                     <p className="text-center text-sm text-gray-400">
-                        Don't have an account?{' '}
+                        Don&apos;t have an account?{' '}
                         <a href="/register" className="text-primary-500 hover:underline">
                             Sign up
                         </a>

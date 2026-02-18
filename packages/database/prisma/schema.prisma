@@ -18,6 +18,8 @@ model User {
   password  String
   firstName String?  @map("first_name")
   lastName  String?  @map("last_name")
+  googleId  String?  @unique @map("google_id")
+  facebookId String? @unique @map("facebook_id")
 
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz

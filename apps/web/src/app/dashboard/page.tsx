@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Card, CardBody, CardHeader, Button, Chip } from '@heroui/react';
 import { Plus, TrendingUp, DollarSign, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
@@ -8,6 +9,7 @@ import Link from 'next/link';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher';
 
 export default function DashboardPage() {
+    const router = useRouter();
     const [myAgents, setMyAgents] = useState([]);
     const [stats, setStats] = useState({
         totalSpent: 0,
@@ -17,9 +19,14 @@ export default function DashboardPage() {
     });
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            router.push('/login');
+            return;
+        }
         fetchMyAgents();
         fetchStats();
-    }, []);
+    }, [router]);
 
     const fetchMyAgents = async () => {
         try {

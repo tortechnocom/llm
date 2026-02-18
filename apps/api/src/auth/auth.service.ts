@@ -93,5 +93,43 @@ export class AuthService {
         return this.jwtService.sign({ sub: userId });
     }
 
+    async validateSocialUser(profile: any): Promise<AuthResponse> {
+        const { email, firstName, lastName, googleId, facebookId } = profile;
 
+        let user = await this.prisma.user.findUnique({
+            where: { email },
+        });
+
+        if (user) {
+            // Link social ID if not already linked
+            const updateData: any = {};
+            if (googleId && !user.googleId) updateData.googleId = googleId;
+            if (facebookId && !user.facebookId) updateData.facebookId = facebookId;
+
+            if (Object.keys(updateData).length > 0) {
+                user = await this.prisma.user.update({
+                    where: { id: user.id },
+                    data: updateData,
+                });
+            }
+        } else {
+            // Create new user with a random password
+            const randomPassword = Math.random().toString(36).slice(-12);
+            const hashedPassword = await bcrypt.hash(randomPassword, 10);
+
+            user = await this.prisma.user.create({
+                data: {
+                    email,
+                    password: hashedPassword,
+                    firstName,
+                    lastName,
+                    googleId: googleId || null,
+                    facebookId: facebookId || null,
+                },
+            });
+        }
+
+        const token = this.generateToken(user.id);
+        return { token, user };
+    }
 }

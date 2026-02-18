@@ -1,8 +1,9 @@
 'use client';
 
+import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { Button } from '@heroui/react';
-import { LogIn, LogOut } from 'lucide-react';
+import { LogIn, LogOut, LayoutDashboard } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export function AuthButton() {
@@ -32,14 +33,24 @@ export function AuthButton() {
     return (
         <>
             {isLoggedIn && (
-                <Button
-                    variant="flat"
-                    color="danger"
-                    onPress={handleLogout}
-                    startContent={<LogOut className="w-4 h-4" />}
-                >
-                    Logout
-                </Button>
+                <>
+                    <Button
+                        as={Link}
+                        href="/dashboard"
+                        variant="ghost"
+                        startContent={<LayoutDashboard className="w-4 h-4" />}
+                    >
+                        Dashboard
+                    </Button>
+                    <Button
+                        variant="flat"
+                        color="danger"
+                        onPress={handleLogout}
+                        startContent={<LogOut className="w-4 h-4" />}
+                    >
+                        Logout
+                    </Button>
+                </>
             )}
             {!isLoggedIn && pathname !== '/login' && pathname !== '/register' && (
                 <Button

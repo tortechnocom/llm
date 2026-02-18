@@ -3,7 +3,7 @@
 
 import { Button } from '@heroui/react';
 
-import { Brain, Sparkles } from 'lucide-react';
+import { Brain, DollarSign, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Home() {
@@ -60,6 +60,11 @@ export default function Home() {
                         icon={<Sparkles className="w-12 h-12" />}
                         title="Share & Collaborate"
                         description="Share your agents with the community or keep them private. Collaborate on knowledge bases."
+                    />
+                    <FeatureCard
+                        icon={<DollarSign className="w-12 h-12" />}
+                        title="Earning with Your Agents"
+                        description="Monetize your AI agents by sharing them on the marketplace and earn rewards for every interaction."
                     />
                 </div>
             </section>

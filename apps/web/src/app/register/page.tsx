@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Button, Input, Card, CardBody, CardHeader } from '@heroui/react';
 import { Mail, Lock, User } from 'lucide-react';
 
@@ -82,6 +83,35 @@ export default function RegisterPage() {
                     <p className="text-gray-400">Join the LLM Agent Marketplace</p>
                 </CardHeader>
                 <CardBody className="gap-6">
+                    {/* Social Login Buttons */}
+                    <div className="flex flex-col gap-2">
+                        <Button
+                            as={Link}
+                            href={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api'}/auth/google`}
+                            variant="bordered"
+                            startContent={<img src="https://www.svgrepo.com/show/475656/google-color.svg" className="w-5 h-5" alt="Google" />}
+                        >
+                            Continue with Google
+                        </Button>
+                        <Button
+                            as={Link}
+                            href={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api'}/auth/facebook`}
+                            variant="bordered"
+                            startContent={<img src="https://www.svgrepo.com/show/475647/facebook-color.svg" className="w-5 h-5" alt="Facebook" />}
+                        >
+                            Continue with Facebook
+                        </Button>
+                    </div>
+
+                    <div className="relative">
+                        <div className="absolute inset-0 flex items-center">
+                            <span className="w-full border-t border-gray-700" />
+                        </div>
+                        <div className="relative flex justify-center text-xs uppercase">
+                            <span className="bg-content1 px-2 text-gray-400">Or continue with</span>
+                        </div>
+                    </div>
+
                     <form onSubmit={handleRegister} className="space-y-4">
                         <div className="flex gap-4">
                             <Input
