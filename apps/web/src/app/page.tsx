@@ -1,8 +1,6 @@
 'use client';
 
-
 import { Button } from '@heroui/react';
-
 import { Brain, DollarSign, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
@@ -10,28 +8,30 @@ export default function Home() {
     return (
         <div className="min-h-full">
             {/* Hero Section */}
-            <section className="container mx-auto px-4 py-20 text-center">
+            <section className="container mx-auto px-4 py-12 sm:py-20 text-center">
                 <div className="max-w-4xl mx-auto">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-500/10 border border-primary-500/20 mb-6">
                         <Sparkles className="w-4 h-4 text-primary-500" />
                         <span className="text-sm text-primary-500">Powered by Advanced AI</span>
                     </div>
 
-                    <h2 className="text-5xl md:text-7xl font-bold mb-12 pb-2 bg-gradient-to-r from-primary-400 to-purple-500 bg-clip-text text-transparent">
-                        Create & Monetize
+                    <h2 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-6 sm:mb-12 pb-2 bg-gradient-to-r from-primary-400 to-purple-500 bg-clip-text text-transparent">
+                        Create &amp; Monetize
                         <br />
                         AI Agents
                     </h2>
 
-                    Build intelligent AI agents with custom knowledge bases and share them with the world.
+                    <p className="text-gray-400 text-base sm:text-lg mb-8 max-w-2xl mx-auto">
+                        Build intelligent AI agents with custom knowledge bases and share them with the world.
+                    </p>
 
-                    <div className="flex gap-4 justify-center">
+                    <div className="flex flex-col sm:flex-row gap-3 justify-center">
                         <Button
                             as={Link}
                             href="/marketplace"
                             size="lg"
                             color="primary"
-                            className="font-semibold"
+                            className="font-semibold w-full sm:w-auto"
                         >
                             Explore Marketplace
                         </Button>
@@ -40,7 +40,7 @@ export default function Home() {
                             href="/create"
                             size="lg"
                             variant="bordered"
-                            className="font-semibold"
+                            className="font-semibold w-full sm:w-auto"
                         >
                             Create Agent
                         </Button>
@@ -49,20 +49,20 @@ export default function Home() {
             </section>
 
             {/* Features */}
-            <section className="container mx-auto px-4 py-20">
-                <div className="grid md:grid-cols-3 gap-8">
+            <section className="container mx-auto px-4 py-12 sm:py-20">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                     <FeatureCard
-                        icon={<Brain className="w-12 h-12" />}
+                        icon={<Brain className="w-10 h-10 sm:w-12 sm:h-12" />}
                         title="Custom AI Agents"
                         description="Train agents with your own knowledge base using RAG technology. Specialize in any domain."
                     />
                     <FeatureCard
-                        icon={<Sparkles className="w-12 h-12" />}
+                        icon={<Sparkles className="w-10 h-10 sm:w-12 sm:h-12" />}
                         title="Share & Collaborate"
                         description="Share your agents with the community or keep them private. Collaborate on knowledge bases."
                     />
                     <FeatureCard
-                        icon={<DollarSign className="w-12 h-12" />}
+                        icon={<DollarSign className="w-10 h-10 sm:w-12 sm:h-12" />}
                         title="Earning with Your Agents"
                         description="Monetize your AI agents by sharing them on the marketplace and earn rewards for every interaction."
                     />
@@ -70,8 +70,8 @@ export default function Home() {
             </section>
 
             {/* Stats */}
-            <section className="container mx-auto px-4 py-20">
-                <div className="grid md:grid-cols-4 gap-8 text-center">
+            <section className="container mx-auto px-4 py-12 sm:py-20">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
                     <StatCard value="1,234" label="Active Agents" />
                     <StatCard value="45K" label="Total Users" />
                     <StatCard value="$2.5M" label="Creator Earnings" />
@@ -94,8 +94,8 @@ function FeatureCard({
     return (
         <div className="p-6 rounded-2xl bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 hover:border-primary-500/50 transition-colors shadow-md dark:shadow-none">
             <div className="text-primary-500 mb-4">{icon}</div>
-            <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">{title}</h3>
-            <p className="text-gray-600 dark:text-gray-400">{description}</p>
+            <h3 className="text-lg sm:text-xl font-bold mb-2 text-gray-900 dark:text-white">{title}</h3>
+            <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base">{description}</p>
         </div>
     );
 }
@@ -103,8 +103,8 @@ function FeatureCard({
 function StatCard({ value, label }: { value: string; label: string }) {
     return (
         <div>
-            <div className="text-4xl font-bold text-primary-500 mb-2">{value}</div>
-            <div className="text-gray-400">{label}</div>
+            <div className="text-3xl sm:text-4xl font-bold text-primary-500 mb-2">{value}</div>
+            <div className="text-gray-400 text-sm sm:text-base">{label}</div>
         </div>
     );
 }

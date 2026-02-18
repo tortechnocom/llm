@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardBody, CardHeader, Input, Textarea, Button, Switch, Slider } from '@heroui/react';
 import { Brain, DollarSign, Globe } from 'lucide-react';
-import { ThemeSwitcher } from '@/components/ThemeSwitcher';
 
 export default function CreateAgentPage() {
     const router = useRouter();
@@ -67,14 +66,11 @@ export default function CreateAgentPage() {
     return (
         <div className="min-h-screen">
             <div className="container mx-auto px-4 py-8 max-w-3xl">
-                <div className="flex justify-between items-start mb-8">
-                    <div>
-                        <h1 className="text-3xl font-bold mb-2">Create AI Agent</h1>
-                        <p className="text-gray-400">
-                            Build your own AI agent with custom knowledge and personality
-                        </p>
-                    </div>
-                    <ThemeSwitcher />
+                <div className="mb-6 sm:mb-8">
+                    <h1 className="text-2xl sm:text-3xl font-bold mb-2">Create AI Agent</h1>
+                    <p className="text-gray-400 text-sm sm:text-base">
+                        Build your own AI agent with custom knowledge and personality
+                    </p>
                 </div>
 
                 <form onSubmit={handleSubmit}>

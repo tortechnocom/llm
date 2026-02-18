@@ -6,8 +6,6 @@ import { Card, CardBody, CardHeader, Button, Chip } from '@heroui/react';
 import { Plus, TrendingUp, DollarSign, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 
-import { ThemeSwitcher } from '@/components/ThemeSwitcher';
-
 export default function DashboardPage() {
     const router = useRouter();
     const [myAgents, setMyAgents] = useState([]);
@@ -31,7 +29,6 @@ export default function DashboardPage() {
     const fetchMyAgents = async () => {
         try {
             const token = localStorage.getItem('token');
-
             const response = await fetch(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
                 method: 'POST',
                 headers: {
@@ -55,7 +52,6 @@ export default function DashboardPage() {
           `,
                 }),
             });
-
             const { data } = await response.json();
             setMyAgents(data?.myAgents || []);
         } catch (error) {
@@ -66,7 +62,6 @@ export default function DashboardPage() {
     const fetchStats = async () => {
         try {
             const token = localStorage.getItem('token');
-
             const response = await fetch(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
                 method: 'POST',
                 headers: {
@@ -86,7 +81,6 @@ export default function DashboardPage() {
           `,
                 }),
             });
-
             const { data } = await response.json();
             setStats(data?.myStats || stats);
         } catch (error) {
@@ -96,76 +90,73 @@ export default function DashboardPage() {
 
     return (
         <div className="min-h-screen">
-            <div className="container mx-auto px-4 py-8">
-
+            <div className="container mx-auto px-4 py-6 sm:py-8">
 
                 {/* Header */}
-                <div className="flex items-center justify-between mb-8">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
                     <div>
-                        <h1 className="text-3xl font-bold mb-2">Dashboard</h1>
-                        <p className="text-gray-400">Manage your AI agents and earnings</p>
+                        <h1 className="text-2xl sm:text-3xl font-bold mb-1">Dashboard</h1>
+                        <p className="text-gray-400 text-sm sm:text-base">Manage your AI agents and earnings</p>
                     </div>
-                    <div className="flex items-center gap-4">
-                        <ThemeSwitcher />
-                        <Button
-                            as={Link}
-                            href="/create"
-                            color="primary"
-                            size="lg"
-                            startContent={<Plus className="w-5 h-5" />}
-                        >
-                            Create Agent
-                        </Button>
-                    </div>
+                    <Button
+                        as={Link}
+                        href="/create"
+                        color="primary"
+                        size="lg"
+                        startContent={<Plus className="w-5 h-5" />}
+                        className="w-full sm:w-auto"
+                    >
+                        Create Agent
+                    </Button>
                 </div>
 
                 {/* Stats */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
                     <Card>
-                        <CardBody className="gap-2">
+                        <CardBody className="gap-1 sm:gap-2 p-3 sm:p-4">
                             <div className="flex items-center gap-2 text-green-500">
-                                <TrendingUp className="w-5 h-5" />
-                                <span className="text-sm">Total Earned</span>
+                                <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5" />
+                                <span className="text-xs sm:text-sm">Total Earned</span>
                             </div>
-                            <p className="text-2xl font-bold">${stats.totalEarned.toFixed(2)}</p>
+                            <p className="text-xl sm:text-2xl font-bold">${stats.totalEarned.toFixed(2)}</p>
                         </CardBody>
                     </Card>
                     <Card>
-                        <CardBody className="gap-2">
+                        <CardBody className="gap-1 sm:gap-2 p-3 sm:p-4">
                             <div className="flex items-center gap-2 text-red-500">
-                                <DollarSign className="w-5 h-5" />
-                                <span className="text-sm">Total Spent</span>
+                                <DollarSign className="w-4 h-4 sm:w-5 sm:h-5" />
+                                <span className="text-xs sm:text-sm">Total Spent</span>
                             </div>
-                            <p className="text-2xl font-bold">${stats.totalSpent.toFixed(2)}</p>
+                            <p className="text-xl sm:text-2xl font-bold">${stats.totalSpent.toFixed(2)}</p>
                         </CardBody>
                     </Card>
                     <Card>
-                        <CardBody className="gap-2">
+                        <CardBody className="gap-1 sm:gap-2 p-3 sm:p-4">
                             <div className="flex items-center gap-2 text-primary-500">
-                                <DollarSign className="w-5 h-5" />
-                                <span className="text-sm">Net Balance</span>
+                                <DollarSign className="w-4 h-4 sm:w-5 sm:h-5" />
+                                <span className="text-xs sm:text-sm">Net Balance</span>
                             </div>
-                            <p className="text-2xl font-bold">${stats.netBalance.toFixed(2)}</p>
+                            <p className="text-xl sm:text-2xl font-bold">${stats.netBalance.toFixed(2)}</p>
                         </CardBody>
                     </Card>
                     <Card>
-                        <CardBody className="gap-2">
+                        <CardBody className="gap-1 sm:gap-2 p-3 sm:p-4">
                             <div className="flex items-center gap-2 text-purple-500">
-                                <MessageSquare className="w-5 h-5" />
-                                <span className="text-sm">Transactions</span>
+                                <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5" />
+                                <span className="text-xs sm:text-sm">Transactions</span>
                             </div>
-                            <p className="text-2xl font-bold">{stats.totalTransactions}</p>
+                            <p className="text-xl sm:text-2xl font-bold">{stats.totalTransactions}</p>
                         </CardBody>
                     </Card>
                 </div>
 
                 {/* My Agents */}
                 <div>
-                    <h2 className="text-2xl font-bold mb-4">My Agents</h2>
+                    <h2 className="text-xl sm:text-2xl font-bold mb-4">My Agents</h2>
                     {myAgents.length === 0 ? (
                         <Card>
-                            <CardBody className="text-center py-12">
-                                <p className="text-gray-400 mb-4">You haven't created any agents yet</p>
+                            <CardBody className="text-center py-10 sm:py-12">
+                                <p className="text-gray-400 mb-4">You haven&apos;t created any agents yet</p>
                                 <Button
                                     as={Link}
                                     href="/create"
@@ -177,16 +168,16 @@ export default function DashboardPage() {
                             </CardBody>
                         </Card>
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                             {myAgents.map((agent: any) => (
                                 <Card key={agent.id}>
                                     <CardHeader className="flex justify-between">
-                                        <h3 className="text-lg font-semibold">{agent.name}</h3>
+                                        <h3 className="text-base sm:text-lg font-semibold truncate">{agent.name}</h3>
                                         <Chip size="sm" color={agent.isPublic ? 'success' : 'default'}>
                                             {agent.isPublic ? 'Public' : 'Private'}
                                         </Chip>
                                     </CardHeader>
-                                    <CardBody className="gap-4">
+                                    <CardBody className="gap-3 sm:gap-4">
                                         {agent.domain && (
                                             <Chip size="sm" variant="flat">
                                                 {agent.domain}

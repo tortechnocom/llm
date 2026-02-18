@@ -113,7 +113,7 @@ export default function RegisterPage() {
                     </div>
 
                     <form onSubmit={handleRegister} className="space-y-4">
-                        <div className="flex gap-4">
+                        <div className="flex flex-col sm:flex-row gap-4">
                             <Input
                                 name="firstName"
                                 label="First Name"
