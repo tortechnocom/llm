@@ -37,12 +37,12 @@ export default function Home() {
                         </Button>
                         <Button
                             as={Link}
-                            href="/create"
+                            href="/dashboard"
                             size="lg"
                             variant="bordered"
                             className="font-semibold w-full sm:w-auto"
                         >
-                            Create Agent
+                            Manage Agents
                         </Button>
                     </div>
                 </div>

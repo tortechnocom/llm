@@ -19,16 +19,6 @@ export function Header() {
                     <span className="text-xl font-bold sm:hidden">LLM</span>
                 </Link>
 
-                {/* Desktop nav */}
-                <nav className="hidden md:flex items-center gap-2">
-                    <Link href="/marketplace" className="text-sm text-gray-400 hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-gray-800">
-                        Marketplace
-                    </Link>
-                    <Link href="/create" className="text-sm text-gray-400 hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-gray-800">
-                        Create Agent
-                    </Link>
-                </nav>
-
                 {/* Right side */}
                 <div className="flex items-center gap-2">
                     <ThemeSwitcher />
@@ -49,21 +39,7 @@ export function Header() {
             {/* Mobile menu */}
             {menuOpen && (
                 <div className="md:hidden border-t border-gray-800 bg-background/95 backdrop-blur px-4 py-4 flex flex-col gap-3">
-                    <Link
-                        href="/marketplace"
-                        className="text-sm text-gray-300 hover:text-white transition-colors py-2 px-3 rounded-lg hover:bg-gray-800"
-                        onClick={() => setMenuOpen(false)}
-                    >
-                        Marketplace
-                    </Link>
-                    <Link
-                        href="/create"
-                        className="text-sm text-gray-300 hover:text-white transition-colors py-2 px-3 rounded-lg hover:bg-gray-800"
-                        onClick={() => setMenuOpen(false)}
-                    >
-                        Create Agent
-                    </Link>
-                    <div className="pt-2 border-t border-gray-800">
+                    <div className="pt-2">
                         <AuthButton />
                     </div>
                 </div>
