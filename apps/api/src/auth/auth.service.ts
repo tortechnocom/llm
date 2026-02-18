@@ -142,6 +142,7 @@ export class AuthService {
                 data: {
                     googleId: null,
                     facebookId: null,
+                    confirmationCode,
                 },
             });
             // In production: queue a full account deletion job with the confirmationCode
