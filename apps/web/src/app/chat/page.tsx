@@ -69,6 +69,7 @@ function ChatContent() {
         if (sessionId) {
             // Connect to WebSocket
             // Ensure we connect to the root URL, not /api
+            console.log(process.env.NEXT_PUBLIC_API_URL);
             const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
             const socketUrl = apiUrl.endsWith('/api') ? apiUrl.slice(0, -4) : apiUrl;
             const newSocket = io(socketUrl);

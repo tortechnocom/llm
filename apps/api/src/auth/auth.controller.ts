@@ -11,6 +11,7 @@ export class AuthController {
         private authService: AuthService,
         private configService: ConfigService,
     ) {
+        console.log('FRONTEND_URL', this.configService.get('FRONTEND_URL'));
         this.frontendUrl = this.configService.get('FRONTEND_URL') || 'http://localhost:3001';
     }
 
@@ -49,7 +50,7 @@ export class AuthController {
 
         if (body.email) {
             // User-initiated deletion via the frontend form
-            await this.authService.requestDataDeletion(body.email, confirmationCode);
+            await this.authService.requestDataDeletion(body.email);
         }
 
         // Facebook sends a signed_request for server-to-server deletion callbacks
